@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Reaction timer</title>
+		<style type="text/css">
+			#shape {
+               width: 200px;
+			   height: 200px;
+			   background-color: red;
+			   display: none;
+			   position: relative;
+			   top: 50px;
+			   left: 50px;
+			}
+			.bold {
+				font-weight: bold;
+			}
+			body {
+				font-family: sans-serif;
+			}
+			#triangle {
+  				width: 0; 
+  				height: 0; 
+  				border-left: 50px solid transparent;
+  				border-right: 50px solid transparent;
+  				border-bottom: 50px solid blue;
+  				display: none;
+				position: relative;
+				top: 50px;
+				left: 50px;
+            }
+		</style>
+		
+	</head>
+	<body>
+	<h1>Click on the shapes as fast as you can!</h1>
+	<p><span class="bold"> Your time: </span><span id="timer" class="bold"></span></p>
+		<div id="shape"></div>
+		<div id="triangle"></div>
+		<script type="text/javascript">
+			var audio1 = new Audio("circle.m4a");
+			var audio2 = new Audio("square.m4a");
+			var audio3 = new Audio("triangle.m4a");
+
+			var start = new Date().getTime(); 
+				function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+	function makeSquareAppear(){
+		var top = Math.random() * 400;
+				var left = Math.random() * 600;
+				var width = (Math.random() * 300) + 50;
+				document.getElementById("shape").style.backgroundColor = getRandomColor();
+				document.getElementById("shape").style.width = width + "px";
+				document.getElementById("shape").style.height = width + "px";
+				document.getElementById("shape").style.top = top + "px";
+				document.getElementById("shape").style.left = left + "px";
+				document.getElementById("shape").style.display = "block";
+
+	}
+			
+			function makeShapeAppear() {
+				
+				var border = (Math.random() * 300) + 50;
+				if (Math.random() < 0.33333) {
+					
+					document.getElementById("shape").style.borderRadius = "50%";
+					makeSquareAppear();
+					audio1.play();
+				}
+				else {
+					if (Math.random() > 0.66666){
+					document.getElementById("shape").style.borderRadius = "0";
+					makeSquareAppear();
+					audio2.play();		
+					}
+					else {
+						var top = Math.random() * 400;
+				var left = Math.random() * 600;
+						document.getElementById("triangle").style.top = top + "px";
+				document.getElementById("triangle").style.left = left + "px";
+						document.getElementById("triangle").style.borderRadius = "0";
+						document.getElementById("triangle").style.borderLeft = border + "px solid transparent";
+						document.getElementById("triangle").style.borderRight = border + "px solid transparent";
+						document.getElementById("triangle").style.borderBottom = border + "px solid" + getRandomColor();
+						document.getElementById("triangle").style.display = "block";
+						audio3.play();				
+					}
+				}
+				start = new Date().getTime();
+			}
+			function appearAfterDelay() {
+				setTimeout (makeShapeAppear, Math.random() * 2000)
+
+			}
+			appearAfterDelay();
+			
+			document.getElementById("shape").onclick = function (){
+				document.getElementById("shape").style.display = "none"
+				var end = new Date().getTime();
+				var timeTaken  = (end - start) / 1000;
+				document.getElementById("timer").innerHTML = timeTaken + "s";
+				appearAfterDelay();
+			}
+			document.getElementById("triangle").onclick = function (){
+				document.getElementById("triangle").style.display = "none"
+				var end = new Date().getTime();
+				var timeTaken  = (end - start) / 1000;
+				document.getElementById("timer").innerHTML = timeTaken + "s";
+				appearAfterDelay();
+			}
+		</script>
+		</body>
+
+</html>
